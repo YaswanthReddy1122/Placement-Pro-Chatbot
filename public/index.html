@@ -1,0 +1,1279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Placement Assistant Pro - Premium Preparation Platform</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- 1. AUTHENTICATION SCREENS WRAPPER -->
+    <main id="authContainer" class="auth-wrapper">
+      <!-- Login View -->
+      <section id="loginView" class="auth-card">
+        <div class="auth-header">
+          <div class="app-logo">
+            <i data-lucide="sparkles" class="logo-icon text-cyan"></i>
+            <h2>Placement Pro</h2>
+          </div>
+          <p class="auth-subtitle">Log in to your dashboard to resume your placement journey</p>
+        </div>
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" placeholder="name@university.edu" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <div class="form-actions-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe"> Remember me
+            </label>
+            <button type="button" id="toForgotPasswordBtn" class="link-btn">Forgot Password?</button>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Log In</button>
+          <p class="auth-footer-text">Don't have an account? <button type="button" id="toSignupBtn" class="link-btn text-cyan">Sign Up</button></p>
+        </form>
+      </section>
+
+      <!-- Sign Up View -->
+      <section id="signupView" class="auth-card hidden">
+        <div class="auth-header">
+          <div class="app-logo">
+            <i data-lucide="sparkles" class="logo-icon text-cyan"></i>
+            <h2>Placement Pro</h2>
+          </div>
+          <p class="auth-subtitle">Create your student account to access AI-powered placement guides</p>
+        </div>
+        <form id="signupForm" class="auth-form scrollable-form">
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" placeholder="Alex Mercer" required>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email Address</label>
+            <input type="email" id="signupEmail" placeholder="alex.mercer@university.edu" required>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" placeholder="••••••••" required>
+          </div>
+          <div class="form-group">
+            <label for="signupBranch">Branch / Discipline</label>
+            <input type="text" id="signupBranch" placeholder="Computer Science & Engineering" required>
+          </div>
+          <div class="form-group">
+            <label for="signupCgpa">Current CGPA</label>
+            <input type="text" id="signupCgpa" placeholder="9.2" required>
+          </div>
+          <div class="form-group">
+            <label for="signupSkills">Technical Skills</label>
+            <input type="text" id="signupSkills" placeholder="Python, Javascript, SQL, React" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+          <p class="auth-footer-text">Already have an account? <button type="button" id="toLoginBtn" class="link-btn text-cyan">Log In</button></p>
+        </form>
+      </section>
+
+      <!-- Forgot Password View -->
+      <section id="forgotPasswordView" class="auth-card hidden">
+        <div class="auth-header">
+          <div class="app-logo">
+            <i data-lucide="sparkles" class="logo-icon text-cyan"></i>
+            <h2>Placement Pro</h2>
+          </div>
+          <p class="auth-subtitle">Enter your email and we'll send password recovery steps</p>
+        </div>
+        <form id="forgotPasswordForm" class="auth-form">
+          <div class="form-group">
+            <label for="forgotEmail">Email Address</label>
+            <input type="email" id="forgotEmail" placeholder="name@university.edu" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Send Recovery Link</button>
+          <button type="button" id="backToLoginFromForgotBtn" class="btn btn-secondary btn-block">Back to Login</button>
+        </form>
+        <div id="resetLinkContainer" class="reset-link-alert hidden"></div>
+      </section>
+
+      <!-- Reset Password View -->
+      <section id="resetPasswordView" class="auth-card hidden">
+        <div class="auth-header">
+          <div class="app-logo">
+            <i data-lucide="sparkles" class="logo-icon text-cyan"></i>
+            <h2>Placement Pro</h2>
+          </div>
+          <p class="auth-subtitle">Set your new strong password below</p>
+        </div>
+        <form id="resetPasswordForm" class="auth-form">
+          <div class="form-group">
+            <label for="resetPassword">New Password</label>
+            <input type="password" id="resetPassword" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Update Password</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- 2. MAIN APPLICATION PLATFORM SHELL -->
+    <main id="appShell" class="app-shell hidden">
+      <!-- COLLAPSIBLE SIDEBAR NAVIGATION -->
+      <aside id="sidebar" class="app-sidebar">
+        <div class="sidebar-header">
+          <div class="app-logo">
+            <i data-lucide="sparkles" class="logo-icon text-cyan"></i>
+            <span class="logo-text">Placement Pro</span>
+          </div>
+          <button id="sidebarToggle" class="sidebar-toggle-btn" title="Toggle Sidebar">
+            <i data-lucide="chevron-left" class="toggle-icon"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-view="dashboardView">
+            <i data-lucide="layout-dashboard"></i>
+            <span class="nav-label">Dashboard</span>
+          </button>
+          <button class="nav-item" data-view="chatView">
+            <i data-lucide="message-square-more"></i>
+            <span class="nav-label">AI Chat</span>
+          </button>
+          <button class="nav-item" data-view="generatorView">
+            <i data-lucide="file-text"></i>
+            <span class="nav-label">Resume Generator</span>
+          </button>
+          <button class="nav-item" data-view="analyzerView">
+            <i data-lucide="scan-search"></i>
+            <span class="nav-label">Resume Analyzer</span>
+          </button>
+          <button class="nav-item" data-view="interviewView">
+            <i data-lucide="messages-square"></i>
+            <span class="nav-label">Mock Interview</span>
+          </button>
+          <button class="nav-item" data-view="readinessView">
+            <i data-lucide="gauge"></i>
+            <span class="nav-label">Placement Readiness</span>
+          </button>
+          <button class="nav-item" data-view="codingView">
+            <i data-lucide="code-2"></i>
+            <span class="nav-label">Coding Practice</span>
+          </button>
+          <button class="nav-item" data-view="aptitudeView">
+            <i data-lucide="brain-circuit"></i>
+            <span class="nav-label">Aptitude Tests</span>
+          </button>
+          <button class="nav-item" data-view="companyView">
+            <i data-lucide="building-2"></i>
+            <span class="nav-label">Company Prep</span>
+          </button>
+          <button class="nav-item" data-view="roadmapsView">
+            <i data-lucide="route"></i>
+            <span class="nav-label">Learning Roadmaps</span>
+          </button>
+          <button class="nav-item" data-view="analyticsView">
+            <i data-lucide="bar-chart-3"></i>
+            <span class="nav-label">Analytics</span>
+          </button>
+          <button class="nav-item" data-view="reportsView">
+            <i data-lucide="folder-open"></i>
+            <span class="nav-label">Saved Reports</span>
+          </button>
+          <div class="sidebar-divider"></div>
+          <button class="nav-item" data-view="settingsView">
+            <i data-lucide="settings-2"></i>
+            <span class="nav-label">Settings</span>
+          </button>
+          <button class="nav-item" data-view="profileView">
+            <i data-lucide="user-circle"></i>
+            <span class="nav-label">Profile</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-profile-widget">
+            <img id="sidebarUserPhoto" class="user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=placeholder" alt="User Avatar">
+            <div class="user-info">
+              <span id="sidebarUserName" class="user-name">Alex Mercer</span>
+              <span id="sidebarUserEmail" class="user-email">alex@univ.edu</span>
+            </div>
+          </div>
+          <button id="logoutBtn" class="logout-btn" title="Log Out">
+            <i data-lucide="log-out"></i>
+            <span class="logout-label">Log Out</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- SCROLLABLE CONTENT WORKSPACE PANEL -->
+      <main class="workspace-panel">
+        <!-- 1. DASHBOARD VIEW -->
+        <section id="dashboardView" class="workspace-view active-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Main Dashboard</p>
+              <h1 id="dashboardGreeting">Welcome back, Student!</h1>
+            </div>
+            <div id="aiRecommendationBanner" class="ai-banner">
+              <i data-lucide="sparkles" class="text-cyan animate-pulse"></i>
+              <p id="aiRecommendationText">Analyzing your data to provide study recommendations...</p>
+            </div>
+          </header>
+
+          <!-- Metrics grid -->
+          <div class="stats-grid">
+            <div class="stats-card">
+              <div class="stats-card-header">
+                <span>Resume Score</span>
+                <i data-lucide="file-text" class="text-purple"></i>
+              </div>
+              <div class="metric-value-row">
+                <span id="dashboardResumeScore" class="metric-value">--</span>
+                <span class="metric-sub">/ 100</span>
+              </div>
+              <div class="progress-bar-container">
+                <div id="dashboardResumeProgress" class="progress-bar-fill bg-purple" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="stats-card">
+              <div class="stats-card-header">
+                <span>Readiness Score</span>
+                <i data-lucide="gauge" class="text-cyan"></i>
+              </div>
+              <div class="metric-value-row">
+                <span id="dashboardReadinessScore" class="metric-value">--</span>
+                <span class="metric-sub">/ 100</span>
+              </div>
+              <div class="progress-bar-container">
+                <div id="dashboardReadinessProgress" class="progress-bar-fill bg-cyan" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="stats-card">
+              <div class="stats-card-header">
+                <span>Mock Interview</span>
+                <i data-lucide="messages-square" class="text-indigo"></i>
+              </div>
+              <div class="metric-value-row">
+                <span id="dashboardInterviewScore" class="metric-value">--</span>
+                <span class="metric-sub">/ 100</span>
+              </div>
+              <div class="progress-bar-container">
+                <div id="dashboardInterviewProgress" class="progress-bar-fill bg-indigo" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="stats-card">
+              <div class="stats-card-header">
+                <span>Coding Challenges</span>
+                <i data-lucide="code-2" class="text-cyan"></i>
+              </div>
+              <div class="metric-value-row">
+                <span id="dashboardCodingScore" class="metric-value">0 / 4</span>
+                <span class="metric-sub">Solved</span>
+              </div>
+              <div class="progress-bar-container">
+                <div id="dashboardCodingProgress" class="progress-bar-fill bg-cyan" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="stats-card">
+              <div class="stats-card-header">
+                <span>Aptitude Average</span>
+                <i data-lucide="brain-circuit" class="text-purple"></i>
+              </div>
+              <div class="metric-value-row">
+                <span id="dashboardAptitudeScore" class="metric-value">--%</span>
+                <span class="metric-sub">Accuracy</span>
+              </div>
+              <div class="progress-bar-container">
+                <div id="dashboardAptitudeProgress" class="progress-bar-fill bg-purple" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions and Mini Charts -->
+          <div class="dashboard-split-grid">
+            <div class="glass-card dashboard-card">
+              <h3>Quick Preparation Actions</h3>
+              <div class="quick-actions-list">
+                <button class="action-btn-large" onclick="switchView('interviewView')">
+                  <i data-lucide="messages-square"></i>
+                  <div>
+                    <strong>Practice Mock Interview</strong>
+                    <span>Test your technical & HR answers</span>
+                  </div>
+                </button>
+                <button class="action-btn-large" onclick="switchView('codingView')">
+                  <i data-lucide="code-2"></i>
+                  <div>
+                    <strong>Solve Coding Challenges</strong>
+                    <span>Practice DSA for engineering rounds</span>
+                  </div>
+                </button>
+                <button class="action-btn-large" onclick="switchView('aptitudeView')">
+                  <i data-lucide="brain-circuit"></i>
+                  <div>
+                    <strong>Aptitude Quizzes</strong>
+                    <span>Solve Quant, Logical & Verbal tasks</span>
+                  </div>
+                </button>
+                <button class="action-btn-large" onclick="switchView('analyzerView')">
+                  <i data-lucide="scan-search"></i>
+                  <div>
+                    <strong>Upload & Audit Resume</strong>
+                    <span>Find missing keywords and score resume</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="glass-card dashboard-card">
+              <h3>Preparation Roadmap Progress</h3>
+              <div class="canvas-container">
+                <canvas id="dashboardRadarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. AI CHAT VIEW (ChatGPT-Style) -->
+        <section id="chatView" class="workspace-view">
+          <div class="chat-container-layout">
+            <!-- Left Side Chats History -->
+            <div class="chat-sessions-sidebar">
+              <button id="newChatBtn" class="btn btn-secondary btn-block">
+                <i data-lucide="plus"></i> New Conversation
+              </button>
+              <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" id="chatSearchInput" placeholder="Search chats...">
+              </div>
+              <div id="chatHistoryList" class="chat-history-list">
+                <!-- Dynamically rendered past chats -->
+              </div>
+            </div>
+
+            <!-- Main Chat Workspace -->
+            <div class="chat-main-area">
+              <header class="chat-area-header">
+                <div>
+                  <h3 id="currentChatTitle">AI Chatbot Assistant</h3>
+                  <p class="text-muted text-xs">Model: Llama 3.1 8B Instruct (Hugging Face)</p>
+                </div>
+                <button id="clearChatBtn" class="btn btn-danger-link text-xs">Clear Conversation</button>
+              </header>
+
+              <div id="chatLog" class="chat-conversation-log">
+                <!-- Messages go here -->
+              </div>
+
+              <!-- Attachment Preview Bar -->
+              <div id="attachmentPanel" class="attachment-panel-bar hidden">
+                <div class="attachment-preview-list" id="attachmentPreviewList"></div>
+              </div>
+
+              <!-- Form input area -->
+              <form id="chatForm" class="chat-composer-form">
+                <div class="composer-actions">
+                  <button type="button" id="attachButton" class="composer-icon-btn" title="Attach Document">
+                    <i data-lucide="paperclip"></i>
+                  </button>
+                  <button type="button" id="voiceInputBtn" class="composer-icon-btn" title="Voice Input (Speech to Text)">
+                    <i data-lucide="mic" id="voiceMicIcon"></i>
+                  </button>
+                  <!-- Attachment Popup Menu -->
+                  <div id="attachmentMenu" class="attachment-popup-menu hidden">
+                    <button type="button" data-type="image" class="menu-item-row"><i data-lucide="image"></i> Image</button>
+                    <button type="button" data-type="video" class="menu-item-row"><i data-lucide="video"></i> Video</button>
+                    <button type="button" data-type="pdf" class="menu-item-row"><i data-lucide="file"></i> PDF</button>
+                    <button type="button" data-type="docx" class="menu-item-row"><i data-lucide="file-text"></i> DOCX</button>
+                    <button type="button" data-type="ppt" class="menu-item-row"><i data-lucide="presentation"></i> PPTX</button>
+                    <button type="button" data-type="excel" class="menu-item-row"><i data-lucide="table"></i> Excel</button>
+                    <button type="button" data-type="file" class="menu-item-row"><i data-lucide="folder"></i> Other Document</button>
+                  </div>
+                </div>
+
+                <div class="composer-input-wrapper">
+                  <textarea id="messageInput" placeholder="Ask about arrays, resumes, HR interview tips, company strategies..." rows="1"></textarea>
+                </div>
+
+                <button type="submit" id="sendButton" class="btn btn-primary btn-round">
+                  <i data-lucide="send"></i>
+                </button>
+
+                <!-- Hidden native pickers -->
+                <input type="file" id="fileInputImage" accept="image/*" style="display: none;" multiple>
+                <input type="file" id="fileInputVideo" accept="video/*" style="display: none;" multiple>
+                <input type="file" id="fileInputPDF" accept=".pdf" style="display: none;" multiple>
+                <input type="file" id="fileInputDOCX" accept=".docx,.doc" style="display: none;" multiple>
+                <input type="file" id="fileInputPPT" accept=".ppt,.pptx" style="display: none;" multiple>
+                <input type="file" id="fileInputExcel" accept=".xlsx,.xls,.csv" style="display: none;" multiple>
+                <input type="file" id="fileInputFile" style="display: none;" multiple>
+              </form>
+
+              <!-- Drag Drop visual modal overlay -->
+              <div id="dragOverlay" class="drag-drop-panel hidden">
+                <div class="drag-drop-message animate-bounce">
+                  <i data-lucide="upload-cloud" class="text-cyan size-xl"></i>
+                  <h4>Drop files to analyze with AI</h4>
+                  <p class="text-muted text-sm">Supports images, PDF, DOCX, PPT, Excel, and text documents</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. RESUME GENERATOR -->
+        <section id="generatorView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">ATS Resume Builder</p>
+              <h1>Create Your Placement Resume</h1>
+            </div>
+          </header>
+          <div class="resume-split-view">
+            <!-- Form Parameters Pane -->
+            <div class="resume-form-pane scrollable-container">
+              <form id="generatorForm" class="form-cards-layout">
+                <fieldset class="glass-card">
+                  <legend><i data-lucide="user"></i> Personal Details</legend>
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label>Full Name</label>
+                      <input name="fullName" placeholder="Alex Mercer" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input name="email" type="email" placeholder="alex.mercer@gmail.com" required>
+                    </div>
+                  </div>
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label>Phone</label>
+                      <input name="phone" placeholder="+91 9876543210" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Address</label>
+                      <input name="address" placeholder="Bangalore, India">
+                    </div>
+                  </div>
+                  <div class="form-row-3">
+                    <div class="form-group">
+                      <label>LinkedIn</label>
+                      <input name="linkedin" placeholder="linkedin.com/in/username">
+                    </div>
+                    <div class="form-group">
+                      <label>GitHub</label>
+                      <input name="github" placeholder="github.com/username">
+                    </div>
+                    <div class="form-group">
+                      <label>Portfolio</label>
+                      <input name="portfolio" placeholder="portfolio.dev">
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend><i data-lucide="book-open"></i> Education</legend>
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label>Degree</label>
+                      <input name="degree" placeholder="B.Tech Computer Science" required>
+                    </div>
+                    <div class="form-group">
+                      <label>University / School</label>
+                      <input name="university" placeholder="Indian Institute of Technology" required>
+                    </div>
+                  </div>
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label>CGPA / Percentage</label>
+                      <input name="cgpa" placeholder="9.1" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Graduation Year</label>
+                      <input name="graduationYear" placeholder="2026" required>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend><i data-lucide="sliders"></i> Professional Summary</legend>
+                  <div class="form-group">
+                    <label>Summary Description</label>
+                    <textarea name="summary" placeholder="Provide a summary or let AI generate it based on your experience" rows="3"></textarea>
+                  </div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend><i data-lucide="code-2"></i> Tech Skills</legend>
+                  <div class="form-group">
+                    <label>Programming Languages</label>
+                    <input name="programmingLanguages" placeholder="Python, Java, Javascript">
+                  </div>
+                  <div class="form-group">
+                    <label>Web Technologies</label>
+                    <input name="technicalSkills" placeholder="React, Node.js, HTML, CSS, REST APIs">
+                  </div>
+                  <div class="form-group">
+                    <label>Databases & Tools</label>
+                    <input name="tools" placeholder="MySQL, MongoDB, Git, Docker">
+                  </div>
+                  <div class="form-group">
+                    <label>Soft Skills</label>
+                    <input name="softSkills" placeholder="Communication, Problem Solving, Teamwork">
+                  </div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend>
+                    <span><i data-lucide="folder-open"></i> Projects</span>
+                    <button type="button" class="btn btn-secondary btn-xs" data-section="projects">+ Add Project</button>
+                  </legend>
+                  <div id="projectsContainer" class="dynamic-inputs-container"></div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend>
+                    <span><i data-lucide="building-2"></i> Work Experience</span>
+                    <button type="button" class="btn btn-secondary btn-xs" data-section="experience">+ Add Work</button>
+                  </legend>
+                  <div id="experienceContainer" class="dynamic-inputs-container"></div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend>
+                    <span><i data-lucide="award"></i> Certifications</span>
+                    <button type="button" class="btn btn-secondary btn-xs" data-section="certifications">+ Add Certificate</button>
+                  </legend>
+                  <div id="certificationsContainer" class="dynamic-inputs-container"></div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend><i data-lucide="trophy"></i> Achievements</legend>
+                  <div class="form-group">
+                    <label>Achievements (One per line)</label>
+                    <textarea name="achievements" placeholder="Solved 300+ problems on Leetcode&#10;Secured Global Rank 150 in coding hackathon" rows="3"></textarea>
+                  </div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend><i data-lucide="heart"></i> Extra Activities</legend>
+                  <div class="form-group">
+                    <label>Activities (One per line)</label>
+                    <textarea name="activities" placeholder="Secretary of College Coding Club&#10;Volunteered in Blood Donation Camp" rows="3"></textarea>
+                  </div>
+                </fieldset>
+
+                <fieldset class="glass-card">
+                  <legend><i data-lucide="layout"></i> Design Templates</legend>
+                  <div class="template-grid">
+                    <label class="template-radio-card">
+                      <input type="radio" name="template" value="modern" checked>
+                      <span>Modern Professional</span>
+                    </label>
+                    <label class="template-radio-card">
+                      <input type="radio" name="template" value="corporate">
+                      <span>Corporate ATS</span>
+                    </label>
+                    <label class="template-radio-card">
+                      <input type="radio" name="template" value="student">
+                      <span>Student Placement</span>
+                    </label>
+                  </div>
+                  <div class="form-group mt-md">
+                    <label>Domain Optimization Format</label>
+                    <select name="format" required>
+                      <option>General Placement Resume</option>
+                      <option>Software Engineer Resume</option>
+                      <option>Data Science Resume</option>
+                      <option>AI/ML Resume</option>
+                      <option>Cybersecurity Resume</option>
+                      <option>Full Stack Developer Resume</option>
+                    </select>
+                  </div>
+                </fieldset>
+
+                <div class="form-submit-row">
+                  <button type="submit" class="btn btn-primary btn-block">Generate Resume with Llama AI</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Print/Preview Pane -->
+            <div class="resume-preview-pane">
+              <div class="preview-toolbar">
+                <div class="preview-actions">
+                  <button type="button" class="btn btn-secondary btn-sm" id="downloadPdfBtn"><i data-lucide="download"></i> Download PDF</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="downloadDocxBtn"><i data-lucide="file-text"></i> Download DOCX</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="printBtn"><i data-lucide="printer"></i> Print</button>
+                  <button type="button" class="btn btn-secondary btn-sm" id="editBtn"><i data-lucide="edit"></i> Edit text</button>
+                </div>
+              </div>
+              <div id="generatorStatus" class="resume-spinner-overlay hidden">
+                <div class="spinner-loader"></div>
+                <p>Generating optimal ATS resume lines...</p>
+              </div>
+              <div id="resumePreview" class="resume-preview-sheet">
+                <div class="empty-preview-state">
+                  <i data-lucide="file-text" class="size-lg text-muted"></i>
+                  <p>Complete the details on the left and click 'Generate' to see your live preview.</p>
+                </div>
+                <div id="previewContent" class="preview-inner-html hidden"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. RESUME ANALYZER -->
+        <section id="analyzerView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">ATS Auditor</p>
+              <h1>Analyze Your Resume</h1>
+              <p class="text-muted">Upload your resume to check for ATS keyword matching and formatting suggestions</p>
+            </div>
+          </header>
+
+          <div class="analyzer-layout">
+            <form id="resumeForm" class="analyzer-upload-card glass-card">
+              <div class="drag-upload-box">
+                <i data-lucide="upload-cloud" class="size-lg text-cyan"></i>
+                <label for="resumeFile">Select PDF or DOCX resume to upload</label>
+                <input id="resumeFile" name="resume" type="file" accept=".pdf,.docx" required>
+                <p class="text-xs text-muted">Files up to 5 MB</p>
+              </div>
+              <button id="analyzeResumeButton" type="submit" class="btn btn-primary">Audit Resume</button>
+            </form>
+
+            <div id="resumeResults" class="analyzer-results-grid hidden">
+              <!-- Radial/Gauge Meters -->
+              <div class="dashboard-split-grid">
+                <div class="glass-card flex-col-center">
+                  <h4>Overall Audit Score</h4>
+                  <div class="circular-score-ring">
+                    <span id="resumeScoreVal">0</span>
+                    <span class="score-denominator">/ 100</span>
+                  </div>
+                </div>
+                <div class="glass-card flex-col-center">
+                  <h4>ATS Compatibility Score</h4>
+                  <div class="circular-score-ring border-cyan">
+                    <span id="resumeAtsVal" class="text-cyan">0</span>
+                    <span class="score-denominator">/ 100</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Text Summary and Roadmap -->
+              <div class="glass-card mt-md">
+                <div class="report-card-header">
+                  <h3>Recruiter Recommendations</h3>
+                  <button type="button" id="downloadResumeReportBtn" class="btn btn-secondary btn-sm"><i data-lucide="download"></i> Download Report</button>
+                </div>
+                <div id="resumeReportText" class="report-text-field mt-md"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. MOCK INTERVIEW -->
+        <section id="interviewView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Interview Simulator</p>
+              <h1>Interactive AI Mock Interview</h1>
+              <p class="text-muted">Practice mock sessions. The AI reads questions aloud, and you can speak to reply.</p>
+            </div>
+          </header>
+
+          <div class="interview-panel-grid">
+            <div class="glass-card interview-controls">
+              <div class="form-group">
+                <label for="interviewMode">Select Round Type</label>
+                <select id="interviewMode">
+                  <option>HR Interview</option>
+                  <option>Technical Interview</option>
+                  <option selected>Mixed Interview</option>
+                </select>
+              </div>
+              <div class="btn-group-row">
+                <button id="startInterviewButton" type="button" class="btn btn-primary"><i data-lucide="play"></i> Start Interview</button>
+                <button id="finishInterviewButton" type="button" class="btn btn-danger" disabled><i data-lucide="award"></i> Finish & Grade</button>
+              </div>
+              <div id="interviewTTSControl" class="toggle-control-row mt-md">
+                <label class="switch-container">
+                  <input type="checkbox" id="ttsToggle" checked>
+                  <span class="switch-slider"></span>
+                </label>
+                <span>Read Questions Aloud (Text to Speech)</span>
+              </div>
+            </div>
+
+            <div class="glass-card interview-logs-area">
+              <div id="interviewLog" class="interview-dialog-box">
+                <div class="empty-preview-state">
+                  <i data-lucide="messages-square" class="size-lg text-muted"></i>
+                  <p>Choose an interview type and click 'Start' to begin the mock session.</p>
+                </div>
+              </div>
+              
+              <form id="interviewForm" class="interview-composer-composer hidden">
+                <button type="button" id="interviewVoiceBtn" class="voice-speech-btn" title="Speak Answer">
+                  <i data-lucide="mic" id="interviewMicIcon"></i>
+                </button>
+                <textarea id="interviewAnswer" placeholder="Type your interview reply or click the mic to speak..." required></textarea>
+                <button id="sendInterviewButton" type="submit" class="btn btn-primary btn-round"><i data-lucide="send"></i></button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. PLACEMENT READINESS -->
+        <section id="readinessView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Readiness Scorer</p>
+              <h1>Evaluate Placement Probabilities</h1>
+              <p class="text-muted">Compute your readiness profile to view target companies and roadmaps</p>
+            </div>
+          </header>
+
+          <div class="readiness-layout">
+            <form id="readinessForm" class="glass-card profile-readiness-form">
+              <div class="form-row-3">
+                <div class="form-group">
+                  <label>Full Name</label>
+                  <input name="name" required placeholder="Alex Mercer">
+                </div>
+                <div class="form-group">
+                  <label>Branch</label>
+                  <input name="branch" required placeholder="Computer Science">
+                </div>
+                <div class="form-group">
+                  <label>CGPA</label>
+                  <input name="cgpa" required placeholder="9.1">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Technical Skills (Comma-separated)</label>
+                <textarea name="technicalSkills" required placeholder="Python, Data Structures, Algorithms, SQL, Git"></textarea>
+              </div>
+              <div class="form-group">
+                <label>List Key Projects</label>
+                <textarea name="projects" required placeholder="E-Commerce API in Node.js, AI model using Llama"></textarea>
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Internships (Optional)</label>
+                  <textarea name="internships" placeholder="Software Engineer Intern at Acme Corp (3 months)"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Certifications (Optional)</label>
+                  <textarea name="certifications" placeholder="AWS Certified Solutions Architect"></textarea>
+                </div>
+              </div>
+              <button id="readinessButton" type="submit" class="btn btn-primary">Check Placement Readiness</button>
+            </form>
+
+            <div id="readinessResults" class="readiness-dashboard-results mt-md hidden">
+              <!-- Score breakdown cards -->
+              <div class="stats-grid">
+                <div class="stats-card">
+                  <span>Readiness Score</span>
+                  <strong id="readinessScoreVal">--</strong>
+                  <div class="progress-bar-container"><div id="readinessScoreFill" class="progress-bar-fill bg-cyan" style="width: 0%"></div></div>
+                </div>
+                <div class="stats-card">
+                  <span>Probability</span>
+                  <strong id="readinessProbabilityVal" class="text-green">--</strong>
+                </div>
+              </div>
+
+              <!-- Companies categorization -->
+              <div class="dashboard-split-grid mt-md">
+                <div class="glass-card">
+                  <h3>Target Placement Tiers</h3>
+                  <div class="company-tiers-list">
+                    <div class="tier-item">
+                      <span class="badge badge-purple">Dream Tier</span>
+                      <p id="dreamCompaniesList" class="text-sm">Evaluating...</p>
+                    </div>
+                    <div class="tier-item">
+                      <span class="badge badge-cyan">Moderate Tier</span>
+                      <p id="moderateCompaniesList" class="text-sm">Evaluating...</p>
+                    </div>
+                    <div class="tier-item">
+                      <span class="badge badge-green">Safe Tier</span>
+                      <p id="safeCompaniesList" class="text-sm">Evaluating...</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="glass-card">
+                  <h3>Roadmap Action Items</h3>
+                  <div id="readinessRoadmapList" class="roadmap-list-widget">
+                    <!-- Loaded dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. CODING PRACTICE -->
+        <section id="codingView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">DSA Practice Sandbox</p>
+              <h1>Prepare for Coding Rounds</h1>
+              <p class="text-muted">Select standard placement algorithms, draft solutions, and run AI compiler evaluations</p>
+            </div>
+          </header>
+
+          <div class="coding-round-workspace">
+            <!-- Left Side Challenges Index -->
+            <div class="coding-challenges-sidebar">
+              <h4>DSA Questions</h4>
+              <div id="codingChallengesList" class="challenges-index-list">
+                <!-- Loaded dynamically -->
+              </div>
+            </div>
+
+            <!-- Right Side Editor -->
+            <div class="coding-editor-panel glass-card">
+              <div id="codingEditorEmptyState" class="empty-preview-state">
+                <i data-lucide="code-2" class="size-lg text-muted"></i>
+                <p>Select a DSA challenge from the index on the left to begin programming.</p>
+              </div>
+
+              <div id="codingWorkspaceArea" class="coding-workspace-area hidden">
+                <header class="coding-editor-header">
+                  <div>
+                    <h3 id="currentCodingTitle">Challenge Title</h3>
+                    <span id="currentCodingDifficulty" class="badge">Easy</span>
+                  </div>
+                  <div class="language-dropdown-wrapper">
+                    <label for="editorLanguageSelect">Language:</label>
+                    <select id="editorLanguageSelect">
+                      <option value="python">Python</option>
+                      <option value="javascript">JavaScript</option>
+                      <option value="cpp">C++</option>
+                      <option value="java">Java</option>
+                    </select>
+                  </div>
+                </header>
+
+                <p id="currentCodingDesc" class="coding-description-text text-sm">Challenge description text goes here.</p>
+
+                <div class="code-textarea-wrapper">
+                  <textarea id="codeEditorTextarea" class="code-editor-font" rows="12"></textarea>
+                </div>
+
+                <div class="editor-buttons-row">
+                  <button id="submitCodeBtn" class="btn btn-primary"><i data-lucide="play"></i> Submit & Analyze with AI</button>
+                </div>
+
+                <!-- AI Evaluation feedback card -->
+                <div id="codingFeedbackCard" class="coding-feedback-box hidden">
+                  <h4><i data-lucide="sparkles" class="text-cyan animate-pulse"></i> AI Compiler Evaluation</h4>
+                  <div id="codingFeedbackText" class="report-text-field mt-sm"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. APTITUDE TESTS -->
+        <section id="aptitudeView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Logical & Quant Rounds</p>
+              <h1>Practice Aptitude Tests</h1>
+              <p class="text-muted">Take timed category mock examinations to boost logical solving rates</p>
+            </div>
+          </header>
+
+          <div class="aptitude-panel">
+            <div id="aptitudeCategorySelector" class="glass-card aptitude-welcome-card">
+              <h3>Choose Test Topic</h3>
+              <p class="text-muted text-sm mb-md">Each mock exam consists of 3 targeted MCQ tests with detailed scoring and answer guides.</p>
+              <div class="category-buttons-grid">
+                <button type="button" class="btn btn-secondary action-btn-large flex-col" onclick="startAptitudeQuiz('quantitative')">
+                  <i data-lucide="calculator" class="text-cyan mb-sm size-md"></i>
+                  <strong>Quantitative Aptitude</strong>
+                </button>
+                <button type="button" class="btn btn-secondary action-btn-large flex-col" onclick="startAptitudeQuiz('logical')">
+                  <i data-lucide="brain-circuit" class="text-purple mb-sm size-md"></i>
+                  <strong>Logical Reasoning</strong>
+                </button>
+                <button type="button" class="btn btn-secondary action-btn-large flex-col" onclick="startAptitudeQuiz('verbal')">
+                  <i data-lucide="book-open" class="text-indigo mb-sm size-md"></i>
+                  <strong>Verbal Ability</strong>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quiz Play Field -->
+            <div id="aptitudeQuizArena" class="glass-card quiz-arena hidden">
+              <header class="quiz-arena-header">
+                <div>
+                  <h3 id="currentQuizCategoryTitle">Quantitative Quiz</h3>
+                  <span id="quizTimerVal" class="badge badge-purple"><i data-lucide="clock" class="size-xs mr-xs"></i> 10:00</span>
+                </div>
+                <button type="button" id="abortQuizBtn" class="btn btn-danger-link text-xs">Exit Quiz</button>
+              </header>
+
+              <!-- Progress line -->
+              <div id="quizProgressBar" class="quiz-progress-track">
+                <div id="quizProgressFill" class="quiz-progress-fill" style="width: 33%"></div>
+              </div>
+
+              <!-- Question widget -->
+              <div id="quizQuestionContainer" class="quiz-question-box mt-md">
+                <p id="quizQuestionText" class="text-md font-semibold">Question body text</p>
+                <div id="quizOptionsContainer" class="quiz-options-list mt-md">
+                  <!-- Radio options render here -->
+                </div>
+              </div>
+
+              <footer class="quiz-arena-footer mt-md">
+                <button type="button" id="quizPrevBtn" class="btn btn-secondary btn-sm" disabled>Previous</button>
+                <button type="button" id="quizNextBtn" class="btn btn-primary btn-sm">Next</button>
+                <button type="button" id="quizSubmitBtn" class="btn btn-green btn-sm hidden">Submit Quiz</button>
+              </footer>
+            </div>
+
+            <!-- Scorecard panel -->
+            <div id="aptitudeScorecard" class="glass-card scorecard-panel hidden">
+              <header class="scorecard-header text-center">
+                <h2>Quiz Scorecard</h2>
+                <div class="scorecard-circle mt-md">
+                  <span id="scorecardScoreVal">0</span>
+                  <span class="scorecard-total">/ 3</span>
+                </div>
+                <p id="scorecardRemarkText" class="text-cyan mt-sm font-semibold">Good attempt!</p>
+              </header>
+
+              <div id="scorecardDetails" class="scorecard-explanations mt-md">
+                <!-- Loaded list -->
+              </div>
+              
+              <div class="text-center mt-md">
+                <button type="button" class="btn btn-primary" onclick="exitScorecard()">Back to Categories</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. COMPANY PREPARATION -->
+        <section id="companyView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Recruitment Guides</p>
+              <h1>Company Placement Portals</h1>
+              <p class="text-muted">Review interview patterns, structure stages, and preparation timelines for major tech hiring corporations</p>
+            </div>
+          </header>
+
+          <div class="company-hub-layout">
+            <div class="company-cards-grid" id="companyCardsGrid">
+              <!-- Dynamic cards for Amazon, TCS, Microsoft, etc. -->
+            </div>
+
+            <!-- Detailed company view panel -->
+            <div id="companyDetailsOverlay" class="glass-card company-details-card mt-md hidden">
+              <header class="company-details-header">
+                <h2 id="selectedCompanyName">Amazon Preparation Hub</h2>
+                <button type="button" class="btn btn-secondary btn-xs" id="closeCompanyDetailsBtn">Close Details</button>
+              </header>
+              
+              <div class="details-split-grid mt-md">
+                <div>
+                  <h4>Hiring Rounds Structure</h4>
+                  <p id="companyProcessText" class="text-sm mt-sm whitespace-pre">Loading recruitment stages...</p>
+                </div>
+                <div>
+                  <h4>Strategy Guide</h4>
+                  <p id="companyStrategyText" class="text-sm mt-sm whitespace-pre">Loading strategy guidelines...</p>
+                </div>
+              </div>
+
+              <div class="mt-md">
+                <h4>Common Interview Questions</h4>
+                <div id="companyQuestionsContainer" class="company-questions-accordion mt-sm">
+                  <!-- Questions render here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. LEARNING ROADMAPS -->
+        <section id="roadmapsView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Curriculums</p>
+              <h1>Career Learning Roadmaps</h1>
+              <p class="text-muted">Follow structured checkpoints to master tech stacks suitable for placements</p>
+            </div>
+          </header>
+
+          <div class="roadmaps-grid">
+            <div class="glass-card roadmap-checkpoint-card">
+              <h3>Full Stack Developer</h3>
+              <ul class="roadmap-checklist">
+                <li><label><input type="checkbox" checked> Learn HTML5, CSS3, ES6 Javascript</label></li>
+                <li><label><input type="checkbox"> Master React Framework & state tools</label></li>
+                <li><label><input type="checkbox"> Build Node.js & Express SQL backends</label></li>
+                <li><label><input type="checkbox"> Deploy code projects on Cloud hosting</label></li>
+              </ul>
+            </div>
+            <div class="glass-card roadmap-checkpoint-card">
+              <h3>Data Science Track</h3>
+              <ul class="roadmap-checklist">
+                <li><label><input type="checkbox" checked> Master Python, Numpy, Pandas libraries</label></li>
+                <li><label><input type="checkbox"> Review statistics, probability, regression</label></li>
+                <li><label><input type="checkbox"> Practice data query filtering with SQL</label></li>
+                <li><label><input type="checkbox"> Build visualization decks (Tableau/Seaborn)</label></li>
+              </ul>
+            </div>
+            <div class="glass-card roadmap-checkpoint-card">
+              <h3>AI / ML Specialist</h3>
+              <ul class="roadmap-checklist">
+                <li><label><input type="checkbox" checked> Study calculus, algebra, optimization</label></li>
+                <li><label><input type="checkbox"> Build predictive algorithms (Scikit-Learn)</label></li>
+                <li><label><input type="checkbox"> Design Deep Learning layers (PyTorch/Tensorflow)</label></li>
+                <li><label><input type="checkbox"> Fine-tune LLMs using API routers</label></li>
+              </ul>
+            </div>
+            <div class="glass-card roadmap-checkpoint-card">
+              <h3>Cybersecurity Analyst</h3>
+              <ul class="roadmap-checklist">
+                <li><label><input type="checkbox" checked> Study networking, TCP/IP, OSI layers</label></li>
+                <li><label><input type="checkbox"> Practice ethical hacking audits on Kali Linux</label></li>
+                <li><label><input type="checkbox"> Master cryptography, hashing, signatures</label></li>
+                <li><label><input type="checkbox"> Configure firewalls & intrusion logs</label></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. ANALYTICS PAGE -->
+        <section id="analyticsView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Insights Tracker</p>
+              <h1>Performance Analytics</h1>
+              <p class="text-muted">Review placement progress curves, interview patterns, and aptitude growth charts</p>
+            </div>
+          </header>
+
+          <div class="analytics-layout-grid">
+            <div class="glass-card chart-wrapper-card">
+              <h3>Mock Interview Score Progression</h3>
+              <div class="canvas-container">
+                <canvas id="analyticsLineChart"></canvas>
+              </div>
+            </div>
+            <div class="glass-card chart-wrapper-card">
+              <h3>Preparation metrics coverage</h3>
+              <div class="canvas-container">
+                <canvas id="analyticsBarChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. SAVED REPORTS -->
+        <section id="reportsView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Document History</p>
+              <h1>My Saved Placement Reports</h1>
+              <p class="text-muted">Review past resume checks, readiness roadmaps, and interview final transcripts</p>
+            </div>
+          </header>
+
+          <div class="glass-card reports-panel-table">
+            <div class="table-container">
+              <table class="reports-table">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Report Title</th>
+                    <th>Score</th>
+                    <th>Date Generated</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="savedReportsTableBody">
+                  <!-- Rows loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13. SETTINGS -->
+        <section id="settingsView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Global Panel</p>
+              <h1>Application Settings</h1>
+            </div>
+          </header>
+
+          <div class="settings-form-layout glass-card">
+            <form id="settingsForm" class="auth-form">
+              <h3>Change Password</h3>
+              <div class="form-group mt-sm">
+                <label for="settingsNewPassword">New Password</label>
+                <input type="password" id="settingsNewPassword" placeholder="••••••••" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Update Credentials</button>
+            </form>
+            <div class="divider mt-md mb-md"></div>
+            <div class="settings-card-row">
+              <div>
+                <h4>Remember session cookie status</h4>
+                <p class="text-xs text-muted">Toggle local storage persist cache for JWT authentication keys</p>
+              </div>
+              <label class="switch-container">
+                <input type="checkbox" id="cookiePersistToggle" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="divider mt-md mb-md"></div>
+            <div class="settings-card-row">
+              <div>
+                <h4>Application Theme Mode</h4>
+                <p class="text-xs text-muted">Change appearance mode: Light, Dark, or System Sync</p>
+              </div>
+              <div class="theme-select-wrapper" style="width: 150px;">
+                <select id="themeSelect">
+                  <option value="dark">Dark Theme</option>
+                  <option value="light">Light Theme</option>
+                  <option value="auto">System Auto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 14. PROFILE VIEW -->
+        <section id="profileView" class="workspace-view">
+          <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Identity Card</p>
+              <h1>User Profile Settings</h1>
+            </div>
+          </header>
+
+          <div class="profile-layout-grid">
+            <div class="glass-card flex-col-center">
+              <img id="profileUserPhoto" class="profile-avatar-large" src="https://api.dicebear.com/7.x/bottts/svg?seed=placeholder" alt="User Avatar">
+              <div class="mt-md form-group w-full">
+                <label>Change Avatar Seed</label>
+                <input type="text" id="avatarSeedInput" placeholder="Enter random seed...">
+              </div>
+              <button type="button" id="refreshAvatarBtn" class="btn btn-secondary btn-sm btn-block">Generate Avatar</button>
+            </div>
+
+            <form id="profileUpdateForm" class="glass-card profile-update-fields-form">
+              <div class="form-group">
+                <label for="profileName">Full Name</label>
+                <input type="text" id="profileName" required>
+              </div>
+              <div class="form-group">
+                <label for="profileBranch">Branch</label>
+                <input type="text" id="profileBranch" required>
+              </div>
+              <div class="form-group">
+                <label for="profileCgpa">Current CGPA</label>
+                <input type="text" id="profileCgpa" required>
+              </div>
+              <div class="form-group">
+                <label for="profileSkills">Skills (comma-separated)</label>
+                <textarea id="profileSkills" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </main>
+
+    <!-- 3. MODALS AND NOTIFICATIONS WINDOWS -->
+    
+    <!-- Share Dialog Modal -->
+    <div id="shareModal" class="modal-backdrop hidden">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Share Message</h3>
+          <button type="button" class="modal-close-btn" onclick="closeModal('shareModal')"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="share-grid">
+            <button type="button" class="share-btn-item" onclick="executeShareAction('whatsapp')">
+              <i data-lucide="message-square" class="text-cyan"></i>
+              <span>WhatsApp</span>
+            </button>
+            <button type="button" class="share-btn-item" onclick="executeShareAction('telegram')">
+              <i data-lucide="send" class="text-purple"></i>
+              <span>Telegram</span>
+            </button>
+            <button type="button" class="share-btn-item" onclick="executeShareAction('linkedin')">
+              <i data-lucide="linkedin" class="text-indigo"></i>
+              <span>LinkedIn</span>
+            </button>
+            <button type="button" class="share-btn-item" onclick="executeShareAction('twitter')">
+              <i data-lucide="twitter" class="text-cyan"></i>
+              <span>X / Twitter</span>
+            </button>
+            <button type="button" class="share-btn-item" onclick="executeShareAction('email')">
+              <i data-lucide="mail" class="text-purple"></i>
+              <span>Email</span>
+            </button>
+          </div>
+          <div class="copy-link-box mt-md">
+            <input type="text" id="shareLinkInput" readonly value="http://localhost:8000/shared/129">
+            <button type="button" class="btn btn-primary btn-sm" id="copyLinkBtn">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rename Chat Modal -->
+    <div id="renameChatModal" class="modal-backdrop hidden">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Rename Conversation</h3>
+          <button type="button" class="modal-close-btn" onclick="closeModal('renameChatModal')"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="newChatNameInput">Enter new chat title</label>
+            <input type="text" id="newChatNameInput" placeholder="Job prep session...">
+          </div>
+          <div class="btn-group-row mt-md justify-end">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal('renameChatModal')">Cancel</button>
+            <button type="button" id="submitRenameChatBtn" class="btn btn-primary btn-sm">Save Title</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- General Alert Box -->
+    <div id="toastNotification" class="toast-popup-box hidden">
+      <p id="toastMessage">Success text</p>
+    </div>
+
+    <!-- Client-side script -->
+    <script src="script.js"></script>
+  </body>
+</html>
