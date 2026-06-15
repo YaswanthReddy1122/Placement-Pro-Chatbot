@@ -1546,7 +1546,7 @@ def main():
             return
         raise
 
-    print(f"Placement Chatbot running at http://{host}:{port}", flush=True)
+    print(f"Placement Chatbot running at http://localhost:{port} (or http://127.0.0.1:{port})", flush=True)
     print(f"Using Hugging Face model: {MODEL}", flush=True)
     print(f"Hugging Face timeout: {HF_TIMEOUT_SECONDS}s", flush=True)
     try:
